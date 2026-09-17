@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 600px;
+        margin: 50px auto;
+      }
+      input {
+        padding: 10px;
+      } 
+      button {
+        padding: 10px;
+      }
+      .todo {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+      }
+      .completed {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo App</h1>
+    <form action="/add" method="POST">
+      <input type="text" name="title" placeholder="Enter todo" required />
+      <button type="submit">Add</button>
+    </form>
+    {{range .}}
+    <div class="todo">
+      {{if .Completed}}
+      <h3 class="completed">{{.Title}}</h3>
+      {{else}}
+      <h3>{{.Title}}</h3>
+
+      {{end}}
+      <form action="/update" method="POST">
+        <input type="hidden" name="id" value="{{.ID}}" />
+
+        <input type="text" name="title" value="{{.Title}}" />
+
+        <button type="submit">Update</button>
+      </form>
+      {{if not .Completed}}
+
+      <form action="/complete" method="POST">
+        <input type="hidden" name="id" value="{{.ID}}" />
+        <button type="submit">Complete</button>
+      </form>
+      {{end}}
+      <form action="/delete" method="POST">
+        <input type="hidden" name="id" value="{{.ID}}" />
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+    {{else}}
+    <p>No todos yet.</p>
+    {{end}}
+  </body>
+</html>
