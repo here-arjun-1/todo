@@ -12,6 +12,7 @@ func New(s *store.Store) *gin.Engine {
 
 	todoHandler := handlers.NewTodoHandler(s)
 
+	r.GET("/", handlers.Root)
 	r.GET("/health", handlers.Health)
 
 	r.POST("/todos", todoHandler.Create)
